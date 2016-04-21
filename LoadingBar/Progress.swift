@@ -78,7 +78,7 @@ class Progress: UIView {
         progressShape.strokeColor = progressColor.CGColor
         progressShape.lineWidth = self.lineWidth
         progressShape.strokeStart = 0.0
-        progressShape.strokeEnd = 1.0
+        progressShape.strokeEnd = 0.0
         progressShape.lineJoin = "round"
 
         if shouldGradiant{
@@ -86,7 +86,16 @@ class Progress: UIView {
             gradiantLayer.mask = progressShape
             layer.addSublayer(gradiantLayer)
         }else{
-            layer.addSublayer(progressShape)
+            let maskLayer = CAShapeLayer()
+            maskLayer.strokeColor = progressColor.CGColor
+            maskLayer.lineWidth = self.lineWidth
+            maskLayer.strokeStart = 0.0
+            maskLayer.strokeEnd = 1.0
+            maskLayer.lineJoin = "round"
+            maskLayer.path = progressPath?.CGPath
+
+            maskLayer.mask = progressShape
+            layer.addSublayer(maskLayer)
         }
     }
     
