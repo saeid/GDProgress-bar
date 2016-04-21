@@ -17,19 +17,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cs1-34-Yf2" customClass="Progress" customModule="LoadingBar" customModuleProvider="target">
+                                <rect key="frame" x="67" y="208" width="240" height="250"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="P42-EI-UBl"/>
+                                    <constraint firstAttribute="height" constant="250" id="YBA-hF-4aR"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q04-nl-OwN">
+                                <rect key="frame" x="247" y="560" width="52" height="30"/>
+                                <state key="normal" title="Waiting"/>
+                                <connections>
+                                    <action selector="startWaiting" destination="BYZ-38-t0r" eventType="touchUpInside" id="25d-X1-ZIm"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P4K-yw-NhQ">
-                                <rect key="frame" x="153" y="559" width="69" height="30"/>
+                                <rect key="frame" x="67" y="560" width="69" height="30"/>
                                 <state key="normal" title="Download"/>
                                 <connections>
                                     <action selector="startProgress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pUh-eQ-cHw"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cs1-34-Yf2" customClass="Progress" customModule="LoadingBar" customModuleProvider="target">
-                                <rect key="frame" x="67" y="208" width="240" height="250"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Cs1-34-Yf2" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="cpD-GL-toz"/>
+                            <constraint firstItem="Cs1-34-Yf2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fGU-RG-NRw"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
