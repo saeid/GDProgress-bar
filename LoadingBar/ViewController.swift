@@ -14,11 +14,12 @@ class ViewController: UIViewController, NSURLSessionDownloadDelegate {
     
     var isDownloading = false
     var downloadTask: NSURLSessionDownloadTask?
-  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         pView.setupView()
+        pView.startProgress()
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,16 +59,15 @@ class ViewController: UIViewController, NSURLSessionDownloadDelegate {
     }
     
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
-        //        statusLabel.text = "Download finished"
-        
+        // Show Download Complete
     }
     
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
-        //        if let error = error {
-        //            statusLabel.text = "Download failed"
-        //        } else {
-        //            statusLabel.text = "Download finished"
-        //        }
+        if let _ = error {
+            // Show Error
+        } else {
+            // Show Success
+        }
     }
     
     

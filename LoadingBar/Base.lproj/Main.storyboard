@@ -17,14 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bym-g3-3GK" customClass="Progress" customModule="LoadingBar" customModuleProvider="target">
-                                <rect key="frame" x="35" y="180" width="305" height="307"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="307" id="GXx-Hm-Ow1"/>
-                                    <constraint firstAttribute="width" constant="305" id="Oc4-y3-mCM"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P4K-yw-NhQ">
                                 <rect key="frame" x="153" y="559" width="69" height="30"/>
                                 <state key="normal" title="Download"/>
@@ -32,16 +24,16 @@
                                     <action selector="startProgress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pUh-eQ-cHw"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cs1-34-Yf2" customClass="Progress" customModule="LoadingBar" customModuleProvider="target">
+                                <rect key="frame" x="67" y="208" width="240" height="250"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Bym-g3-3GK" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="fmG-K5-FMQ"/>
-                            <constraint firstItem="Bym-g3-3GK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zjQ-Iu-zBI"/>
-                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="pView" destination="Bym-g3-3GK" id="z3d-vM-fO6"/>
+                        <outlet property="pView" destination="Cs1-34-Yf2" id="OI2-a9-wuE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

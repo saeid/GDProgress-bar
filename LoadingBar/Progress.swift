@@ -15,11 +15,19 @@ class Progress: UIView {
     private var detailsLabel: UILabel? = nil
     
     var progressPath: UIBezierPath!
-    var animationTime: CFTimeInterval = 5.0
-    var animationDelay: CFTimeInterval = 1
+    var animationTime: CGFloat = 3.0
+    var animationDelay: CGFloat = 1
     var showLabels: Bool = true
-    var showRoutePath: Bool = true
-    var lineWidth: CGFloat = 5.0
+    var showRoutePath: Bool = false
+    var lineWidth: CGFloat = 10.0
+    var shouldRotate: Bool = true
+    var shouldGradiant: Bool = true
+    var routeColor: UIColor = UIColor.grayColor()
+    var progressColor: UIColor = UIColor.blueColor()
+    var grad1Color: UIColor = UIColor.whiteColor()
+    var grad2Color: UIColor = UIColor.blackColor()
+    var percentFont: UIFont = UIFont.systemFontOfSize(20)
+    var detailsFont: UIFont = UIFont.systemFontOfSize(15)
 
     
     //MARK: - init
@@ -34,6 +42,7 @@ class Progress: UIView {
     
     //create uiview components
     func setupView(){
+        self.backgroundColor = UIColor.clearColor()
         createMainLayer()
         if showLabels{
             createLabels()
@@ -46,13 +55,12 @@ class Progress: UIView {
     //MARK: - Pathes
     //Create custom path for loading
     func createMainPath() -> UIBezierPath{
-        let progressBezier = UIBezierPath()
-        progressBezier.moveToPoint(CGPointMake(CGRectGetWidth(frame) / 2 - 100, CGRectGetHeight(frame) / 2 - 100))
-        progressBezier.addLineToPoint(CGPointMake(CGRectGetWidth(frame) / 2 + 100, CGRectGetHeight(frame) / 2 - 100))
-        progressBezier.addLineToPoint(CGPointMake(CGRectGetWidth(frame) / 2 + 100, CGRectGetHeight(frame) / 2 + 100))
-        progressBezier.addLineToPoint(CGPointMake(CGRectGetWidth(frame) / 2 - 100, CGRectGetHeight(frame) / 2 + 100))
+        let circleRaduis = (min(self.bounds.width, self.bounds.height) / 2 - progressShape.lineWidth) / 2
+        let circleCenter = CGPointMake(bounds.midX , bounds.midY)
+        let startAngle = CGFloat(M_PI_2)
+        let endAngle = startAngle + CGFloat(M_PI * 2)
         
-        progressBezier.closePath()
+        let progressBezier = UIBezierPath(arcCenter: circleCenter, radius: circleRaduis, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
         return progressBezier
     }
@@ -65,24 +73,27 @@ class Progress: UIView {
         }else{
             progressShape.path = createMainPath().CGPath
         }
-        let gradiantLayer = createGradiantLayer()
         progressShape.backgroundColor = UIColor.clearColor().CGColor
         progressShape.fillColor = nil
-        progressShape.strokeColor = UIColor.blackColor().CGColor
+        progressShape.strokeColor = progressColor.CGColor
         progressShape.lineWidth = self.lineWidth
         progressShape.strokeStart = 0.0
-        progressShape.strokeEnd = 0.0
+        progressShape.strokeEnd = 1.0
         progressShape.lineJoin = "round"
-        
-        gradiantLayer.mask = progressShape
-        
-        layer.addSublayer(gradiantLayer)
+
+        if shouldGradiant{
+            let gradiantLayer = createGradiantLayer(grad1Color, g2: grad2Color)
+            gradiantLayer.mask = progressShape
+            layer.addSublayer(gradiantLayer)
+        }else{
+            layer.addSublayer(progressShape)
+        }
     }
     
     func createRouteLayer(){
         routeShape = CAShapeLayer()
         routeShape!.path = progressShape.path
-        routeShape!.strokeColor = UIColor.grayColor().CGColor
+        routeShape!.strokeColor = routeColor.CGColor
         routeShape!.fillColor = nil
         routeShape!.strokeStart = 0.0
         routeShape!.strokeEnd = 1.0
@@ -92,14 +103,13 @@ class Progress: UIView {
         layer.insertSublayer(routeShape!, below: progressShape)
     }
     
-    private func createGradiantLayer() -> CAGradientLayer{
+    private func createGradiantLayer(g1: UIColor, g2: UIColor) -> CAGradientLayer{
         let gLayer = CAGradientLayer()
         gLayer.frame = self.bounds
         gLayer.locations = [0.0, 1.0]
         
-        let top = UIColor.blackColor().colorWithAlphaComponent(0.7).CGColor
-        let bot = UIColor.redColor().CGColor
-        
+        let top = grad1Color.CGColor
+        let bot = grad2Color.CGColor
         gLayer.colors = [top, bot]
         
         return gLayer
@@ -118,35 +128,31 @@ class Progress: UIView {
         let startAnimation = CABasicAnimation(keyPath: "strokeEnd")
         startAnimation.fromValue = 0.0
         startAnimation.toValue = 1.0
-        startAnimation.duration = self.animationTime
+        startAnimation.duration = CFTimeInterval(self.animationTime)
         
         startAnimation.setValue("animation", forKey: "strokeEnd")
         startAnimation.delegate = self
         startAnimation.fillMode = kCAFillModeForwards
         
         let endAnimation = CABasicAnimation(keyPath: "strokeStart")
-        endAnimation.beginTime = animationDelay
+        endAnimation.beginTime = CFTimeInterval(animationDelay)
         endAnimation.fromValue = 0.0
         endAnimation.toValue = 1.0
-        endAnimation.duration = self.animationTime - animationDelay
+        endAnimation.duration = CFTimeInterval(self.animationTime - animationDelay)
         
         endAnimation.setValue("animation", forKey: "strokeStart")
         endAnimation.delegate = self
         endAnimation.fillMode = kCAFillModeForwards
         
         // if it's a circular path, it can have a rotation animation
-        //uncomment below lines + group animation line
-        
-        let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotateAnimation.fromValue = 0.0
-        rotateAnimation.toValue = M_PI * 2 // rotate 360 degrees
-        rotateAnimation.duration = 2
-        rotateAnimation.cumulative = true
+        //shouldRotate var indicate if progressbar should rotate
+        if shouldRotate{
+            rotate()
+        }
         
         let groupAnim = CAAnimationGroup()
-        //                groupAnim.animations = [startAnimation, endAnimation, rotateAnimation]
         groupAnim.animations = [startAnimation, endAnimation]
-        groupAnim.duration = self.animationTime
+        groupAnim.duration = CFTimeInterval(self.animationTime)
         groupAnim.repeatCount = HUGE
         groupAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
@@ -158,8 +164,20 @@ class Progress: UIView {
         progressShape.removeAllAnimations()
     }
     
+    func rotate(){
+        let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotateAnimation.fromValue = 0.0
+        rotateAnimation.toValue = M_PI * 2// rotate 360 degrees
+        rotateAnimation.duration = CFTimeInterval(self.animationTime * 1.2)
+        rotateAnimation.repeatCount = HUGE
+        self.layer.addAnimation(rotateAnimation, forKey: nil)
+    }
+    
     func updatePercent(value: Float){
-        self.progressLabel!.text = String(format: "%.0f %@", value, "%")
+        guard let pLabel = self.progressLabel else{
+            return
+        }
+        pLabel.text = String(format: "%.0f %@", value, "%")
     }
     
     func updateAnimation(currentVal: CGFloat){
@@ -201,14 +219,14 @@ class Progress: UIView {
         progressLabel!.text = "0 %"
         progressLabel!.textAlignment = .Center
         progressLabel!.textColor = UIColor.blackColor()
-        progressLabel!.font = UIFont.systemFontOfSize(30)
+        progressLabel!.font = percentFont
         progressLabel!.translatesAutoresizingMaskIntoConstraints = false
         
         detailsLabel = UILabel()
         detailsLabel!.text = "0.0 MB / 0.0 MB"
         detailsLabel!.textAlignment = .Center
         detailsLabel!.textColor = UIColor.blackColor()
-        detailsLabel!.font = UIFont.systemFontOfSize(15)
+        detailsLabel!.font = detailsFont
         detailsLabel!.translatesAutoresizingMaskIntoConstraints = false
         
         self.addSubview(detailsLabel!)
@@ -216,7 +234,6 @@ class Progress: UIView {
         
         setupConstains()
     }
-    
     
     private func setupConstains(){
         let wConstraintP = NSLayoutConstraint(item: self, attribute: .CenterX, relatedBy: .Equal, toItem: progressLabel, attribute: .CenterX, multiplier: 1.0, constant: 0.0)
