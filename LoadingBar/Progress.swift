@@ -92,7 +92,7 @@ class Progress: UIView {
             maskLayer.strokeStart = 0.0
             maskLayer.strokeEnd = 1.0
             maskLayer.lineJoin = "round"
-            maskLayer.path = progressPath?.CGPath
+            maskLayer.path = progressShape.path
 
             maskLayer.mask = progressShape
             layer.addSublayer(maskLayer)

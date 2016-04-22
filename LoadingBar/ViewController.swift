@@ -43,10 +43,10 @@ class ViewController: UIViewController, NSURLSessionDownloadDelegate {
         pView.lineWidth = 6.0
         
         //this will rotate the progress bar if enabled. set it to false if you enable showLabels property
-        pView.shouldRotate = true
+        pView.shouldRotate = false
         
         //active gradiant color for bar
-        pView.shouldGradiant = true
+        pView.shouldGradiant = false
         
         //route line color
         pView.routeColor = UIColor.grayColor()
