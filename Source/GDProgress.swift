@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Progress: UIView {
+class GDProgress: UIView {
     private var progressShape: CAShapeLayer = CAShapeLayer()
     private var routeShape: CAShapeLayer? = nil
     private var progressLabel: UILabel? = nil

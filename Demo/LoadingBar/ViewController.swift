@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, NSURLSessionDownloadDelegate {
     //Create instance of Progress
-    @IBOutlet weak var pView: Progress!
+    @IBOutlet weak var pView: GDProgress!
     
     var isWaiting = false
     var isDownloading = false
