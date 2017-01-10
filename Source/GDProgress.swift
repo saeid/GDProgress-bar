@@ -8,11 +8,11 @@
 
 import UIKit
 
-class GDProgress: UIView {
-    private var progressShape: CAShapeLayer = CAShapeLayer()
-    private var routeShape: CAShapeLayer? = nil
-    private var progressLabel: UILabel? = nil
-    private var detailsLabel: UILabel? = nil
+class GDProgress: UIView, CAAnimationDelegate {
+    fileprivate var progressShape: CAShapeLayer = CAShapeLayer()
+    fileprivate var routeShape: CAShapeLayer? = nil
+    fileprivate var progressLabel: UILabel? = nil
+    fileprivate var detailsLabel: UILabel? = nil
     
     var progressPath: UIBezierPath!
     var animationTime: CGFloat = 3.0
@@ -22,12 +22,12 @@ class GDProgress: UIView {
     var lineWidth: CGFloat = 10.0
     var shouldRotate: Bool = true
     var shouldGradiant: Bool = true
-    var routeColor: UIColor = UIColor.grayColor()
-    var progressColor: UIColor = UIColor.blueColor()
-    var grad1Color: UIColor = UIColor.whiteColor()
-    var grad2Color: UIColor = UIColor.blackColor()
-    var percentFont: UIFont = UIFont.systemFontOfSize(20)
-    var detailsFont: UIFont = UIFont.systemFontOfSize(15)
+    var routeColor: UIColor = UIColor.gray
+    var progressColor: UIColor = UIColor.blue
+    var grad1Color: UIColor = UIColor.white
+    var grad2Color: UIColor = UIColor.black
+    var percentFont: UIFont = UIFont.systemFont(ofSize: 20)
+    var detailsFont: UIFont = UIFont.systemFont(ofSize: 15)
 
     
     //MARK: - init
@@ -42,7 +42,7 @@ class GDProgress: UIView {
     
     //create uiview components
     func setupView(){
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         createMainLayer()
         if showLabels{
             createLabels()
@@ -56,7 +56,7 @@ class GDProgress: UIView {
     //Create custom path for loading
     func createMainPath() -> UIBezierPath{
         let circleRaduis = (min(self.bounds.width, self.bounds.height) / 2 - progressShape.lineWidth) / 2
-        let circleCenter = CGPointMake(bounds.midX , bounds.midY)
+        let circleCenter = CGPoint(x: bounds.midX , y: bounds.midY)
         let startAngle = CGFloat(M_PI_2)
         let endAngle = startAngle + CGFloat(M_PI * 2)
         
@@ -67,15 +67,15 @@ class GDProgress: UIView {
     
     //MARK: - Layers
     //Create custom shape layers
-    private func createMainLayer(){
+    fileprivate func createMainLayer(){
         if let _ = self.progressPath{
-            progressShape.path = progressPath?.CGPath
+            progressShape.path = progressPath?.cgPath
         }else{
-            progressShape.path = createMainPath().CGPath
+            progressShape.path = createMainPath().cgPath
         }
-        progressShape.backgroundColor = UIColor.clearColor().CGColor
+        progressShape.backgroundColor = UIColor.clear.cgColor
         progressShape.fillColor = nil
-        progressShape.strokeColor = progressColor.CGColor
+        progressShape.strokeColor = progressColor.cgColor
         progressShape.lineWidth = self.lineWidth
         progressShape.strokeStart = 0.0
         progressShape.strokeEnd = 0.0
@@ -87,7 +87,7 @@ class GDProgress: UIView {
             layer.addSublayer(gradiantLayer)
         }else{
             let maskLayer = CAShapeLayer()
-            maskLayer.strokeColor = progressColor.CGColor
+            maskLayer.strokeColor = progressColor.cgColor
             maskLayer.lineWidth = self.lineWidth
             maskLayer.strokeStart = 0.0
             maskLayer.strokeEnd = 1.0
@@ -102,7 +102,7 @@ class GDProgress: UIView {
     func createRouteLayer(){
         routeShape = CAShapeLayer()
         routeShape!.path = progressShape.path
-        routeShape!.strokeColor = routeColor.CGColor
+        routeShape!.strokeColor = routeColor.cgColor
         routeShape!.fillColor = nil
         routeShape!.strokeStart = 0.0
         routeShape!.strokeEnd = 1.0
@@ -112,13 +112,13 @@ class GDProgress: UIView {
         layer.insertSublayer(routeShape!, below: progressShape)
     }
     
-    private func createGradiantLayer(g1: UIColor, g2: UIColor) -> CAGradientLayer{
+    fileprivate func createGradiantLayer(_ g1: UIColor, g2: UIColor) -> CAGradientLayer{
         let gLayer = CAGradientLayer()
         gLayer.frame = self.bounds
         gLayer.locations = [0.0, 1.0]
         
-        let top = grad1Color.CGColor
-        let bot = grad2Color.CGColor
+        let top = grad1Color.cgColor
+        let bot = grad2Color.cgColor
         gLayer.colors = [top, bot]
         
         return gLayer
@@ -165,7 +165,7 @@ class GDProgress: UIView {
         groupAnim.repeatCount = HUGE
         groupAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
-        progressShape.addAnimation(groupAnim, forKey: "gruoupAnim")
+        progressShape.add(groupAnim, forKey: "gruoupAnim")
     }
     
     func endProgress(){
@@ -179,17 +179,17 @@ class GDProgress: UIView {
         rotateAnimation.toValue = M_PI * 2// rotate 360 degrees
         rotateAnimation.duration = CFTimeInterval(self.animationTime * 1.2)
         rotateAnimation.repeatCount = HUGE
-        self.layer.addAnimation(rotateAnimation, forKey: nil)
+        self.layer.add(rotateAnimation, forKey: nil)
     }
     
-    func updatePercent(value: Float){
+    func updatePercent(_ value: Float){
         guard let pLabel = self.progressLabel else{
             return
         }
         pLabel.text = String(format: "%.0f %@", value, "%")
     }
     
-    func updateAnimation(currentVal: CGFloat){
+    func updateAnimation(_ currentVal: CGFloat){
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = progressShape.strokeEnd
         animation.toValue = currentVal
@@ -197,17 +197,17 @@ class GDProgress: UIView {
         animation.fillMode = kCAFillModeForwards
         
         progressShape.strokeEnd = currentVal
-        progressShape.addAnimation(animation, forKey: nil)
+        progressShape.add(animation, forKey: nil)
     }
     
-    func updatePercente(percent: Float){
+    func updatePercente(_ percent: Float){
         guard let pLabel = self.progressLabel else{
             return
         }
         pLabel.text = "\(percent) %"
     }
     
-    func updateDetails(downloded: Int64, total: Int64){
+    func updateDetails(_ downloded: Int64, total: Int64){
         guard let dLabel = self.detailsLabel else{
             return
         }
@@ -217,24 +217,24 @@ class GDProgress: UIView {
         dLabel.text = String(format: "%0.2f MB / %0.2f MB", downlodedMB, totalMB)
     }
     
-    func convertToMB(totalBytes: Int64) -> Float{
+    func convertToMB(_ totalBytes: Int64) -> Float{
         return (Float(totalBytes) / 1024) / 1024
     }
     
     //MARK: - Labels
     //Create indicator labels for loading progress bar
-    private func createLabels(){
+    fileprivate func createLabels(){
         progressLabel = UILabel()
         progressLabel!.text = "0 %"
-        progressLabel!.textAlignment = .Center
-        progressLabel!.textColor = UIColor.blackColor()
+        progressLabel!.textAlignment = .center
+        progressLabel!.textColor = UIColor.black
         progressLabel!.font = percentFont
         progressLabel!.translatesAutoresizingMaskIntoConstraints = false
         
         detailsLabel = UILabel()
         detailsLabel!.text = "0.0 MB / 0.0 MB"
-        detailsLabel!.textAlignment = .Center
-        detailsLabel!.textColor = UIColor.blackColor()
+        detailsLabel!.textAlignment = .center
+        detailsLabel!.textColor = UIColor.black
         detailsLabel!.font = detailsFont
         detailsLabel!.translatesAutoresizingMaskIntoConstraints = false
         
@@ -244,12 +244,12 @@ class GDProgress: UIView {
         setupConstains()
     }
     
-    private func setupConstains(){
-        let wConstraintP = NSLayoutConstraint(item: self, attribute: .CenterX, relatedBy: .Equal, toItem: progressLabel, attribute: .CenterX, multiplier: 1.0, constant: 0.0)
-        let hConstraintP = NSLayoutConstraint(item: self, attribute: .CenterY, relatedBy: .Equal, toItem: progressLabel, attribute: .CenterY, multiplier: 1.0, constant: 0.0)
+    fileprivate func setupConstains(){
+        let wConstraintP = NSLayoutConstraint(item: self, attribute: .centerX, relatedBy: .equal, toItem: progressLabel, attribute: .centerX, multiplier: 1.0, constant: 0.0)
+        let hConstraintP = NSLayoutConstraint(item: self, attribute: .centerY, relatedBy: .equal, toItem: progressLabel, attribute: .centerY, multiplier: 1.0, constant: 0.0)
         
-        let yAlignmentConstraint = NSLayoutConstraint(item: progressLabel!, attribute: .CenterX, relatedBy: .Equal, toItem: detailsLabel!, attribute: .CenterX, multiplier: 1.0, constant: 0.0)
-        let topConstraintD = NSLayoutConstraint(item: progressLabel!, attribute: .Bottom, relatedBy: .Equal, toItem: detailsLabel!, attribute: .Top, multiplier: 1.0, constant: 1.0)
+        let yAlignmentConstraint = NSLayoutConstraint(item: progressLabel!, attribute: .centerX, relatedBy: .equal, toItem: detailsLabel!, attribute: .centerX, multiplier: 1.0, constant: 0.0)
+        let topConstraintD = NSLayoutConstraint(item: progressLabel!, attribute: .bottom, relatedBy: .equal, toItem: detailsLabel!, attribute: .top, multiplier: 1.0, constant: 1.0)
         
         self.addConstraints([wConstraintP, hConstraintP, yAlignmentConstraint, topConstraintD])
     }

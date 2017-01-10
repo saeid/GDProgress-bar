@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController, NSURLSessionDownloadDelegate {
+class ViewController: UIViewController, URLSessionDownloadDelegate {
     //Create instance of Progress
     @IBOutlet weak var pView: GDProgress!
     
     var isWaiting = false
     var isDownloading = false
-    var downloadTask: NSURLSessionDownloadTask?
+    var downloadTask: URLSessionDownloadTask?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,10 +49,10 @@ class ViewController: UIViewController, NSURLSessionDownloadDelegate {
         pView.shouldGradiant = false
         
         //route line color
-        pView.routeColor = UIColor.grayColor()
+        pView.routeColor = UIColor.gray
         
         //main progress bar color. this only used for gradiant is not enabled
-        pView.progressColor = UIColor.blueColor()
+        pView.progressColor = UIColor.blue
         
         //first gradiant color, this only works if gradiant is enabled
 //        pView.grad1Color = UIColor.whiteColor()
@@ -75,29 +75,29 @@ class ViewController: UIViewController, NSURLSessionDownloadDelegate {
     
     func createCustomPath() -> UIBezierPath{
         let bezierPath = UIBezierPath()
-        bezierPath.moveToPoint(CGPointMake(205.5, 0.5))
-        bezierPath.addCurveToPoint(CGPointMake(193.5, 8.5), controlPoint1: CGPointMake(197.75, 0.5), controlPoint2: CGPointMake(193.5, 8.5))
-        bezierPath.addCurveToPoint(CGPointMake(184.16, 24.72), controlPoint1: CGPointMake(193.5, 8.5), controlPoint2: CGPointMake(171.5, 10.5))
-        bezierPath.addCurveToPoint(CGPointMake(174.5, 41.5), controlPoint1: CGPointMake(196.83, 38.93), controlPoint2: CGPointMake(174.5, 41.5))
-        bezierPath.addCurveToPoint(CGPointMake(150.5, 25.5), controlPoint1: CGPointMake(174.5, 41.5), controlPoint2: CGPointMake(165.5, 9.5))
-        bezierPath.addCurveToPoint(CGPointMake(135.5, 41.5), controlPoint1: CGPointMake(135.5, 41.5), controlPoint2: CGPointMake(149.5, 41.5))
-        bezierPath.addCurveToPoint(CGPointMake(109.5, 41.5), controlPoint1: CGPointMake(121.5, 41.5), controlPoint2: CGPointMake(125.5, 75.5))
-        bezierPath.addCurveToPoint(CGPointMake(92.5, 8.5), controlPoint1: CGPointMake(93.5, 7.5), controlPoint2: CGPointMake(92.5, 8.5))
-        bezierPath.addCurveToPoint(CGPointMake(64.5, 31.5), controlPoint1: CGPointMake(92.5, 8.5), controlPoint2: CGPointMake(64.5, -6.5))
-        bezierPath.addCurveToPoint(CGPointMake(26.5, 41.5), controlPoint1: CGPointMake(64.5, 69.5), controlPoint2: CGPointMake(26.5, 41.5))
-        bezierPath.addCurveToPoint(CGPointMake(14.5, 82.5), controlPoint1: CGPointMake(26.5, 41.5), controlPoint2: CGPointMake(-4.5, 69.5))
-        bezierPath.addCurveToPoint(CGPointMake(51.5, 68.5), controlPoint1: CGPointMake(33.5, 95.5), controlPoint2: CGPointMake(51.5, 68.5))
-        bezierPath.addCurveToPoint(CGPointMake(92.5, 68.5), controlPoint1: CGPointMake(51.5, 68.5), controlPoint2: CGPointMake(92.5, 48.5))
-        bezierPath.addCurveToPoint(CGPointMake(114.5, 91.5), controlPoint1: CGPointMake(92.5, 88.5), controlPoint2: CGPointMake(93.5, 100.5))
-        bezierPath.addCurveToPoint(CGPointMake(141.5, 75.5), controlPoint1: CGPointMake(135.5, 82.5), controlPoint2: CGPointMake(141.5, 75.5))
-        bezierPath.addCurveToPoint(CGPointMake(141.5, 58.5), controlPoint1: CGPointMake(141.5, 75.5), controlPoint2: CGPointMake(123.5, 58.5))
-        bezierPath.addCurveToPoint(CGPointMake(174.5, 107.5), controlPoint1: CGPointMake(159.5, 58.5), controlPoint2: CGPointMake(174.5, 107.5))
-        bezierPath.addCurveToPoint(CGPointMake(224.5, 82.5), controlPoint1: CGPointMake(174.5, 107.5), controlPoint2: CGPointMake(244.5, 115.5))
-        bezierPath.addCurveToPoint(CGPointMake(174.5, 68.5), controlPoint1: CGPointMake(204.5, 49.5), controlPoint2: CGPointMake(174.5, 68.5))
-        bezierPath.addCurveToPoint(CGPointMake(212.5, 41.5), controlPoint1: CGPointMake(174.5, 68.5), controlPoint2: CGPointMake(194.5, 24.5))
-        bezierPath.addCurveToPoint(CGPointMake(224.5, 8.5), controlPoint1: CGPointMake(230.5, 58.5), controlPoint2: CGPointMake(224.5, 8.5))
-        bezierPath.addCurveToPoint(CGPointMake(205.5, 0.5), controlPoint1: CGPointMake(224.5, 8.5), controlPoint2: CGPointMake(213.25, 0.5))
-        bezierPath.closePath()
+        bezierPath.move(to: CGPoint(x: 205.5, y: 0.5))
+        bezierPath.addCurve(to: CGPoint(x: 193.5, y: 8.5), controlPoint1: CGPoint(x: 197.75, y: 0.5), controlPoint2: CGPoint(x: 193.5, y: 8.5))
+        bezierPath.addCurve(to: CGPoint(x: 184.16, y: 24.72), controlPoint1: CGPoint(x: 193.5, y: 8.5), controlPoint2: CGPoint(x: 171.5, y: 10.5))
+        bezierPath.addCurve(to: CGPoint(x: 174.5, y: 41.5), controlPoint1: CGPoint(x: 196.83, y: 38.93), controlPoint2: CGPoint(x: 174.5, y: 41.5))
+        bezierPath.addCurve(to: CGPoint(x: 150.5, y: 25.5), controlPoint1: CGPoint(x: 174.5, y: 41.5), controlPoint2: CGPoint(x: 165.5, y: 9.5))
+        bezierPath.addCurve(to: CGPoint(x: 135.5, y: 41.5), controlPoint1: CGPoint(x: 135.5, y: 41.5), controlPoint2: CGPoint(x: 149.5, y: 41.5))
+        bezierPath.addCurve(to: CGPoint(x: 109.5, y: 41.5), controlPoint1: CGPoint(x: 121.5, y: 41.5), controlPoint2: CGPoint(x: 125.5, y: 75.5))
+        bezierPath.addCurve(to: CGPoint(x: 92.5, y: 8.5), controlPoint1: CGPoint(x: 93.5, y: 7.5), controlPoint2: CGPoint(x: 92.5, y: 8.5))
+        bezierPath.addCurve(to: CGPoint(x: 64.5, y: 31.5), controlPoint1: CGPoint(x: 92.5, y: 8.5), controlPoint2: CGPoint(x: 64.5, y: -6.5))
+        bezierPath.addCurve(to: CGPoint(x: 26.5, y: 41.5), controlPoint1: CGPoint(x: 64.5, y: 69.5), controlPoint2: CGPoint(x: 26.5, y: 41.5))
+        bezierPath.addCurve(to: CGPoint(x: 14.5, y: 82.5), controlPoint1: CGPoint(x: 26.5, y: 41.5), controlPoint2: CGPoint(x: -4.5, y: 69.5))
+        bezierPath.addCurve(to: CGPoint(x: 51.5, y: 68.5), controlPoint1: CGPoint(x: 33.5, y: 95.5), controlPoint2: CGPoint(x: 51.5, y: 68.5))
+        bezierPath.addCurve(to: CGPoint(x: 92.5, y: 68.5), controlPoint1: CGPoint(x: 51.5, y: 68.5), controlPoint2: CGPoint(x: 92.5, y: 48.5))
+        bezierPath.addCurve(to: CGPoint(x: 114.5, y: 91.5), controlPoint1: CGPoint(x: 92.5, y: 88.5), controlPoint2: CGPoint(x: 93.5, y: 100.5))
+        bezierPath.addCurve(to: CGPoint(x: 141.5, y: 75.5), controlPoint1: CGPoint(x: 135.5, y: 82.5), controlPoint2: CGPoint(x: 141.5, y: 75.5))
+        bezierPath.addCurve(to: CGPoint(x: 141.5, y: 58.5), controlPoint1: CGPoint(x: 141.5, y: 75.5), controlPoint2: CGPoint(x: 123.5, y: 58.5))
+        bezierPath.addCurve(to: CGPoint(x: 174.5, y: 107.5), controlPoint1: CGPoint(x: 159.5, y: 58.5), controlPoint2: CGPoint(x: 174.5, y: 107.5))
+        bezierPath.addCurve(to: CGPoint(x: 224.5, y: 82.5), controlPoint1: CGPoint(x: 174.5, y: 107.5), controlPoint2: CGPoint(x: 244.5, y: 115.5))
+        bezierPath.addCurve(to: CGPoint(x: 174.5, y: 68.5), controlPoint1: CGPoint(x: 204.5, y: 49.5), controlPoint2: CGPoint(x: 174.5, y: 68.5))
+        bezierPath.addCurve(to: CGPoint(x: 212.5, y: 41.5), controlPoint1: CGPoint(x: 174.5, y: 68.5), controlPoint2: CGPoint(x: 194.5, y: 24.5))
+        bezierPath.addCurve(to: CGPoint(x: 224.5, y: 8.5), controlPoint1: CGPoint(x: 230.5, y: 58.5), controlPoint2: CGPoint(x: 224.5, y: 8.5))
+        bezierPath.addCurve(to: CGPoint(x: 205.5, y: 0.5), controlPoint1: CGPoint(x: 224.5, y: 8.5), controlPoint2: CGPoint(x: 213.25, y: 0.5))
+        bezierPath.close()
         
         return bezierPath
     }
@@ -118,7 +118,7 @@ class ViewController: UIViewController, NSURLSessionDownloadDelegate {
     }
     
     //MARK: - Create Download Actions
-    @IBAction func startProgress(sender: UIButton){
+    @IBAction func startProgress(_ sender: UIButton){
         if isDownloading{
             self.isDownloading = !isDownloading
             downloadTask?.cancel()
@@ -132,16 +132,15 @@ class ViewController: UIViewController, NSURLSessionDownloadDelegate {
      Create a download task and add to NSOperationQueue
      */
     func createDlTask() {
-        let downloadRequest = NSMutableURLRequest(URL: NSURL(string: "http://www.solarspace.co.uk/Multimedia/ISS/ISSNicebackdropBIG.jpg")!)
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: self, delegateQueue: NSOperationQueue.mainQueue())
+        let session = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
         
-        downloadTask = session.downloadTaskWithRequest(downloadRequest)
+        downloadTask = session.downloadTask(with: URL(string: "http://www.solarspace.co.uk/Multimedia/ISS/ISSNicebackdropBIG.jpg")!)
         downloadTask!.resume()
     }
     
     
     //MARK: - NSURLSessionDownloadDelegate
-    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         
         let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
         pView.updateAnimation(CGFloat(progress))
@@ -149,11 +148,11 @@ class ViewController: UIViewController, NSURLSessionDownloadDelegate {
         pView.updateDetails(totalBytesWritten, total: totalBytesExpectedToWrite)
     }
     
-    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         // Show Download Complete
     }
     
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if let _ = error {
             // Show Error
         } else {
