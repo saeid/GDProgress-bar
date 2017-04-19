@@ -57,8 +57,8 @@ class GDProgress: UIView, CAAnimationDelegate {
     func createMainPath() -> UIBezierPath{
         let circleRaduis = (min(self.bounds.width, self.bounds.height) / 2 - progressShape.lineWidth) / 2
         let circleCenter = CGPoint(x: bounds.midX , y: bounds.midY)
-        let startAngle = CGFloat(M_PI_2)
-        let endAngle = startAngle + CGFloat(M_PI * 2)
+        let startAngle = CGFloat(Double.pi)
+        let endAngle = startAngle + CGFloat(Double.pi * 2)
         
         let progressBezier = UIBezierPath(arcCenter: circleCenter, radius: circleRaduis, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
@@ -82,7 +82,7 @@ class GDProgress: UIView, CAAnimationDelegate {
         progressShape.lineJoin = "round"
 
         if shouldGradiant{
-            let gradiantLayer = createGradiantLayer(grad1Color, g2: grad2Color)
+            let gradiantLayer = createGradiantLayer(grad1Color, grad2Color)
             gradiantLayer.mask = progressShape
             layer.addSublayer(gradiantLayer)
         }else{
@@ -112,7 +112,7 @@ class GDProgress: UIView, CAAnimationDelegate {
         layer.insertSublayer(routeShape!, below: progressShape)
     }
     
-    fileprivate func createGradiantLayer(_ g1: UIColor, g2: UIColor) -> CAGradientLayer{
+    fileprivate func createGradiantLayer(_ g1: UIColor, _ g2: UIColor) -> CAGradientLayer{
         let gLayer = CAGradientLayer()
         gLayer.frame = self.bounds
         gLayer.locations = [0.0, 1.0]
@@ -176,7 +176,7 @@ class GDProgress: UIView, CAAnimationDelegate {
     func rotate(){
         let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotateAnimation.fromValue = 0.0
-        rotateAnimation.toValue = M_PI * 2// rotate 360 degrees
+        rotateAnimation.toValue = Double.pi * 2// rotate 360 degrees
         rotateAnimation.duration = CFTimeInterval(self.animationTime * 1.2)
         rotateAnimation.repeatCount = HUGE
         self.layer.add(rotateAnimation, forKey: nil)
@@ -207,7 +207,7 @@ class GDProgress: UIView, CAAnimationDelegate {
         pLabel.text = "\(percent) %"
     }
     
-    func updateDetails(_ downloded: Int64, total: Int64){
+    func updateDetails(_ downloded: Int64, _ total: Int64){
         guard let dLabel = self.detailsLabel else{
             return
         }

@@ -28,10 +28,10 @@ class ViewController: UIViewController, URLSessionDownloadDelegate {
     
     func setupView(){
         //Show labels for download progress
-        pView.showLabels = false
+        pView.showLabels = true
         
         //Show route path for a download progress
-        pView.showRoutePath = false
+        pView.showRoutePath = true
         
         //waiting progress animation duration
         pView.animationTime = 3
@@ -55,19 +55,19 @@ class ViewController: UIViewController, URLSessionDownloadDelegate {
         pView.progressColor = UIColor.blue
         
         //first gradiant color, this only works if gradiant is enabled
-//        pView.grad1Color = UIColor.whiteColor()
+//        pView.grad1Color = UIColor.white
         
         //second gradiant color, this only works if gradiant is enabled
-//        pView.grad2Color = UIColor.blackColor()
+//        pView.grad2Color = UIColor.black
         
         //font for % label
-//        pView.percentFont = UIFont.systemFontOfSize(20)
+        pView.percentFont = UIFont.systemFont(ofSize: 20)
         
         //font for details label
-//        pView.detailsFont = UIFont.systemFontOfSize(15)
+//        pView.detailsFont = UIFont.systemFont(ofSize: 15)
         
         //set custom path for the progress/waiting bar
-//        pView.progressPath = createCustomPath()
+        pView.progressPath = createCustomPath()
         
         //call this at end of view modifications
         pView.setupView()
@@ -145,7 +145,7 @@ class ViewController: UIViewController, URLSessionDownloadDelegate {
         let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
         pView.updateAnimation(CGFloat(progress))
         pView.updatePercent(progress * 100)
-        pView.updateDetails(totalBytesWritten, total: totalBytesExpectedToWrite)
+        pView.updateDetails(totalBytesWritten, totalBytesExpectedToWrite)
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
