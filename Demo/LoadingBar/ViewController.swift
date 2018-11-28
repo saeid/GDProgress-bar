@@ -27,12 +27,6 @@ class ViewController: UIViewController, URLSessionDownloadDelegate {
     }
     
     func setupView(){
-        //Show labels for download progress
-        pView.showLabels = true
-        
-        //Show route path for a download progress
-        pView.showRoutePath = true
-        
         //waiting progress animation duration
         pView.animationTime = 3
         
@@ -70,7 +64,7 @@ class ViewController: UIViewController, URLSessionDownloadDelegate {
         pView.progressPath = createCustomPath()
         
         //call this at end of view modifications
-        pView.setupView()
+        pView.setup(showLabels: true, showRoutePath: true)
     }
     
     func createCustomPath() -> UIBezierPath{
